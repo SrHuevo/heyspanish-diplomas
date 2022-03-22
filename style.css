@@ -1,0 +1,30 @@
+html {
+    scroll-behavior: auto!important;
+}
+
+textarea {
+    white-space: nowrap;
+}
+
+.container-fluid {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    min-width: fit-content;
+}
+
+.accordion-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+#email-place {
+    overflow: auto;
+    position: relative;
+}
+
+embed {
+    height: calc(100vh - 52px - 40px - 38px);
+}

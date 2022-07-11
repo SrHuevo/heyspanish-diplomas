@@ -1,15 +1,23 @@
 function sendEmail(body, attachments, wildcards) {
-    const options = {
-        Host: document.getElementById('host').value,
-        Username : document.getElementById('user').value,
-        Password : document.getElementById('pass').value,
-        To : replaceWildcards(document.getElementById('to').value, wildcards),
-        From : document.getElementById('from').value,
-        Subject : replaceWildcards(document.getElementById('subject').value, wildcards),
-        Body : body,
-        Attachments : attachments,
-    }
-    return Email.send(options)
+    return fetch('https://api.sendinblue.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+            'api-key': document.getElementById('apiKey').value,
+            'accept': 'application/json',
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            sender:{
+                email: document.getElementById('from').value,
+            },
+            to: [{
+                email: replaceWildcards(document.getElementById('to').value, wildcards),
+            }],
+            subject: replaceWildcards(document.getElementById('subject').value, wildcards),
+            htmlContent: body,
+            attachment: attachments,
+        })
+    })
 }
 
 let attachmentNumber = 0
@@ -117,7 +125,7 @@ async function sendEmails(event) {
             const html = replaceWildcards(template, student)
             const pdf = await generate(html, orientation)
 
-            return { data: pdf, name }
+            return { content: pdf, name }
         }))
 
         await sendEmail(mail, attachments, student)
